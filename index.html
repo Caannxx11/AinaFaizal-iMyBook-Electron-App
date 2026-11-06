@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>iMyBook - Reading Book Application</title>
+  <style>
+    * { box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
+    body { background-color: #f4f6f9; margin: 0; padding: 20px; color: #333; }
+    
+    header { background: #2c3e50; color: white; padding: 15px 20px; border-radius: 8px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
+    header h1 { margin: 0; font-size: 22px; }
+    
+    nav button { background: #3498db; color: white; border: none; padding: 10px 15px; margin-left: 5px; border-radius: 5px; cursor: pointer; font-weight: bold; }
+    nav button:hover { background: #2980b9; }
+    
+    .page { display: none; }
+    .active { display: block; }
+    
+    .card { background: white; border-radius: 8px; padding: 15px; margin-bottom: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; }
+    
+    input, select, button { padding: 10px; border-radius: 5px; border: 1px solid #ccc; margin-bottom: 10px; font-size: 14px; width: 100%; }
+    
+    .btn-main { background: #27ae60; color: white; border: none; cursor: pointer; font-weight: bold; }
+    .btn-main:hover { background: #219150; }
+    .btn-danger { background: #e74c3c; color: white; border: none; cursor: pointer; margin-right: 5px; width: auto; }
+    .btn-edit { background: #f39c12; color: white; border: none; cursor: pointer; margin-right: 5px; width: auto; }
+    
+    .badge { display: inline-block; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; color: white; background: #8e44ad; }
+    .search-box-container { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+    @media (max-width: 768px) { .search-box-container { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER & NAVIGATION -->
+  <header>
+    <h1>📚 iMyBook Application</h1>
+    <nav>
+      <button onclick="showPage('searchPage')" style="width:auto;">🔍 Search Books (API)</button>
+      <button onclick="showPage('watchlistPage')" style="width:auto;">📖 My Reading List (CRUD)</button>
+    </nav>
+  </header>
+
+  <!-- PAGE 1: SEARCH & OPEN LIBRARY API -->
+  <div id="searchPage" class="page active">
+    <div class="card">
+      <h3>🔍 Search Books (Open Library API)</h3>
+      
+      <div class="search-box-container">
+        <div>
+          <label for="genre"><b>1. Search by Genre / Category:</b></label>
+          <select id="genre">
+            <option value="fiction">Fiction</option>
+            <option value="science">Science</option>
+            <option value="history">History</option>
+            <option value="fantasy">Fantasy</option>
+            <option value="computers">Computers</option>
+          </select>
+          <button class="btn-main" id="searchGenreBtn">Search by Genre</button>
+        </div>
+
+        <div>
+          <label for="bookTitleInput"><b>2. Search by Book Title:</b></label>
+          <input type="text" id="bookTitleInput" placeholder="e.g. Harry Potter, Java...">
+          <button class="btn-main" id="searchTitleBtn">Search by Title</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="searchResults" class="grid"></div>
+  </div>
+
+  <!-- PAGE 2: LOCALSTORAGE WATCHLIST  -->
+  <div id="watchlistPage" class="page">
+    <div class="card">
+      <h3>➕ Add Manual Book to Reading List</h3>
+      <input type="text" id="manualTitle" placeholder="Book Title">
+      <input type="text" id="manualAuthor" placeholder="Author Name">
+      <input type="number" id="manualPages" placeholder="Total Pages">
+      <button class="btn-main" onclick="addManualBook()">Add to List</button>
+    </div>
+
+    <h3>📖 My Saved Reading List (LocalStorage)</h3>
+    <div id="watchlistResults" class="grid"></div>
+  </div>
+
+  <script src="renderer.js"></script>
+</body>
+</html>
